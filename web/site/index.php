@@ -34,56 +34,14 @@
               <!-- RD Navbar Toggle-->
               <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-main"><span></span></button>
               <!-- RD Navbar Panel-->
-              <div class="rd-navbar-panel-inner container">
-                <div class="rd-navbar-collapse rd-navbar-panel-item rd-navbar-panel-item-left">
-                  <!-- Owl Carousel-->
-                  <div class="owl-carousel-navbar owl-carousel-inline-outer">
-                    <div class="owl-inline-nav">
-                      <button class="owl-arrow owl-arrow-prev"></button>
-                      <button class="owl-arrow owl-arrow-next"></button>
-                    </div>
-                    <div class="owl-carousel-inline-wrap">
-                      <div class="owl-carousel owl-carousel-inline" data-items="1" data-dots="false" data-nav="true" data-autoplay="true" data-autoplay-speed="3200" data-stage-padding="0" data-loop="true" data-margin="10" data-mouse-drag="false" data-touch-drag="false" data-nav-custom=".owl-carousel-navbar">
-                        <!-- Post Inline-->
-                        <article class="post-inline">
-                          <time class="post-inline-time" datetime="2020">Fecha</time>
-                          <p class="post-inline-title">proximo vs proximo</p>
-                        </article>
-                        <!-- Post Inline-->
-                        <article class="post-inline">
-                          <time class="post-inline-time" datetime="2020">Fecha</time>
-                          <p class="post-inline-title">proximo vs proximo</p>
-                        </article>
-                        <!-- Post Inline-->
-                        <article class="post-inline">
-                          <time class="post-inline-time" datetime="2020">Fecha, 2020</time>
-                          <p class="post-inline-title">proximo vs proximo</p>
-                        </article>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="rd-navbar-panel-item rd-navbar-panel-item-right">
-                  <ul class="list-inline list-inline-bordered">
-                    <li>
-                      <!-- Select 2-->
-                      <select class="select select-inline" data-placeholder="Select an option" data-dropdown-class="select-inline-dropdown">
-                        <option value="es" selected="">es</option>
-                        <option value="fr">cat</option>
-                        <option value="en">en</option>
-                      </select>
-                    </li>
-                  
-                   
-                  </ul>
-                </div>
-                <div class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1" data-rd-navbar-toggle=".rd-navbar-collapse"><span></span></div>
-              </div>
+             
             </div>
             <div class="rd-navbar-main">
               
               <div class="rd-navbar-main-bottom rd-navbar-darker">
+                
                 <div class="rd-navbar-main-container container">
+                  
                   <!-- RD Navbar Nav-->
                                     <ul class="rd-navbar-nav">
                                       <li class="rd-nav-item active"><a class="rd-nav-link" href="index.html">Inicio</a>
@@ -95,6 +53,18 @@
                                       <li class="rd-nav-item"><a class="rd-nav-link" href="">opcion3</a>
                                       </li>
                                     </ul>
+                                    <ul class="list-inline list-inline-bordered">
+                    <li>
+                      <!-- Select 2-->
+                      <select class="select select-inline" data-placeholder="Select an option" data-dropdown-class="select-inline-dropdown">
+                        <option value="es" selected="">es</option>
+                        <option value="fr">cat</option>
+                        <option value="en">en</option>
+                      </select>
+                    </li>
+                  
+                   
+                  </ul>
                   
                 </div>
               </div>
@@ -140,9 +110,84 @@
       <section class="section section-md bg-gray-100">
         <div class="container">
           <div class="row row-50">
+            
             <div class="col-lg-8">
               <div class="main-component">
+              <article class="heading-component">
+                  <div class="heading-component-inner">
+                    <h5 class="heading-component-title">Próximos partidos
+                   
+                  </div>
+                </article>
                 <!-- Heading Component-->
+                <div class="owl-carousel-navbar owl-carousel-inline-outer">
+                    <div class="owl-inline-nav">
+                      <button class="owl-arrow owl-arrow-prev"></button>
+                      <button class="owl-arrow owl-arrow-next"></button>
+                    </div>
+                    <div class="owl-carousel-inline-wrap">
+                      
+                      <div class="owl-carousel owl-carousel-inline" data-items="1" data-dots="false" data-nav="true" data-autoplay="true" data-autoplay-speed="3200" data-stage-padding="0" data-loop="true" data-margin="10" data-mouse-drag="false" data-touch-drag="false" data-nav-custom=".owl-carousel-navbar">
+                        <!-- Post Inline-->
+                     
+                        <?php
+// Código PHP para obtener y mostrar los partidos
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => "https://transfermarket.p.rapidapi.com/matches/list-by-club?id=3368&domain=de", 
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "GET",
+    CURLOPT_HTTPHEADER => [
+        "x-rapidapi-host: transfermarket.p.rapidapi.com",
+        "x-rapidapi-key: ffe049a75bmsh4423d1479f12c87p19373bjsn42314fcc1d3c"
+    ],
+]);
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+    echo "cURL Error #:" . $err;
+} else {
+    $data = json_decode($response, true);
+    
+    if (isset($data['playClubMatches']) && is_array($data['playClubMatches'])) {
+        $currentDate = time();
+
+        foreach ($data['playClubMatches'] as $match) {
+            $homeTeam = $match['homeClubName'];
+            $awayTeam = $match['awayClubName'];
+            $matchDate = $match['fullMatchDate'];
+            $matchTimestamp = strtotime($match['matchDate']);
+            
+
+            if ($matchTimestamp > $currentDate) {
+                // Formatear la fecha para que no incluya el día de la semana
+                $formattedDate = date('d/m/Y', $matchTimestamp); // Formato día/mes/año
+                
+                echo '<article class="post-inline">';
+                echo '<time class="post-inline-time" datetime="' . $formattedDate . '">' . $formattedDate . '</time>';
+                echo '<p class="post-inline-title">' . $homeTeam . ' vs ' . $awayTeam . '</p>';
+                
+                echo '</article>';
+            }
+        }
+    } else {
+        echo "No se encontraron partidos.";
+    }
+}
+?>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <article class="heading-component">
                   <div class="heading-component-inner">
                     <h5 class="heading-component-title">Noticias

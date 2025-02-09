@@ -4623,10 +4623,12 @@ textarea.form-input {
 
 .post-inline-time {
 	color: #35ad79;
+	font-size: 20px;
 }
 
 .post-inline-title {
 	color: #151515;
+	font-size: 20px;
 }
 
 .post-inline-title:not(:empty)::before {
@@ -22497,7 +22499,7 @@ html:not(.ie-11):not(.ie-10) .countdown-circle {
 .owl-carousel-inline-outer {
 	position: relative;
 	padding-left: 60px;
-	min-height: 23px;
+	min-height: 50px;
 }
 
 .owl-carousel-inline-outer .owl-inline-nav {
