@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/style.css">
+    
     <style>.ie-panel{display: none;background: #0b0909;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
   </head>
   <body>
@@ -111,7 +112,7 @@
         <div class="container">
           <div class="row row-50">
             
-            <div class="col-lg-8">
+            <div class="col-lg-10">
               <div class="main-component">
               <article class="heading-component">
                   <div class="heading-component-inner">
@@ -131,64 +132,21 @@
                         <!-- Post Inline-->
                      
                         <?php
-// Código PHP para obtener y mostrar los partidos
-$curl = curl_init();
-
-curl_setopt_array($curl, [
-    CURLOPT_URL => "https://transfermarket.p.rapidapi.com/matches/list-by-club?id=3368&domain=de", 
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => "",
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => "GET",
-    CURLOPT_HTTPHEADER => [
-        "x-rapidapi-host: transfermarket.p.rapidapi.com",
-        "x-rapidapi-key: ffe049a75bmsh4423d1479f12c87p19373bjsn42314fcc1d3c"
-    ],
-]);
-
-$response = curl_exec($curl);
-$err = curl_error($curl);
-
-curl_close($curl);
-
-if ($err) {
-    echo "cURL Error #:" . $err;
-} else {
-    $data = json_decode($response, true);
-    
-    if (isset($data['playClubMatches']) && is_array($data['playClubMatches'])) {
-        $currentDate = time();
-
-        foreach ($data['playClubMatches'] as $match) {
-            $homeTeam = $match['homeClubName'];
-            $awayTeam = $match['awayClubName'];
-            $matchDate = $match['fullMatchDate'];
-            $matchTimestamp = strtotime($match['matchDate']);
-            
-
-            if ($matchTimestamp > $currentDate) {
-                // Formatear la fecha para que no incluya el día de la semana
-                $formattedDate = date('d/m/Y', $matchTimestamp); // Formato día/mes/año
-                
-                echo '<article class="post-inline">';
-                echo '<time class="post-inline-time" datetime="' . $formattedDate . '">' . $formattedDate . '</time>';
-                echo '<p class="post-inline-title">' . $homeTeam . ' vs ' . $awayTeam . '</p>';
-                
-                echo '</article>';
-            }
-        }
-    } else {
-        echo "No se encontraron partidos.";
-    }
-}
+include('includes/partidos.php');
 ?>
                       </div>
                     </div>
                   </div>
                 </div>
-                <article class="heading-component">
+                <!-- Calendario-->
+                <div class="col-md-6">
+<?php
+include('includes/calendariocom.php');
+?>
+</div>
+<div class="col-lg-10">
+<div class="main-component">
+              <article class="heading-component">
                   <div class="heading-component-inner">
                     <h5 class="heading-component-title">Noticias
                    
@@ -201,197 +159,79 @@ if ($err) {
                   
 <!-- rss superdeporte-->
 <div class="col-md-6">
-  <article class="post-future">
-  <h4 class="post-future-title">
-  <img src="images/sd.jpeg" alt="Icono" width="20" height="20"> SuperDeporte</h4>
-    <div class="post-future-main">
-      <?php
-      $rss_feed_url = 'https://www.superdeporte.es/rss/section/43013';
-      $rss = simplexml_load_file($rss_feed_url);
-      
-      if ($rss !== false) {
-          $counter = 0;
-          foreach ($rss->channel->item as $item) {
-              if ($counter < 3) {
-                  echo '<div class="post-future">';
-                  echo '<a class="post-future-figure" href="' . $item->link . '" target="_blank">';
-                  if (isset($item->enclosure)) {
-                      echo '<img src="' . $item->enclosure['url'] . '" alt="Imagen de la noticia" width="368" height="287"/>';
-                  }
-                  echo '</a>';
-                  echo '<h4 class="post-future-title"><a href="' . $item->link . '" target="_blank">' . $item->title . '</a></h4>';
-                  echo '<hr/>';
-                  echo '<div class="post-future-text"><p>' . $item->description . '</p></div>';
-                  echo '<div class="post-future-footer group-flex group-flex-xs">';
-                  echo '<a class="button button-gray-outline" href="' . $item->link . '" target="_blank">Leer más</a>';
-                  echo '</div>';
-                  echo '</div>';
-                  $counter++;
-              }
-          }
-      } else {
-          echo '<p>Hubo un problema al cargar el RSS.</p>';
-      }
-      ?>
-    </div>
-  </article>
+<?php
+include('includes/superdeporte.php');
+?>
 </div>
 <!-- fin rss superdeporte-->
  <!-- rss marca-->
 <div class="col-md-6">
-  <article class="post-future">
-  <h4 class="post-future-title">
-  <img src="images/marca.jpeg" alt="Icono" width="20" height="20"> Marca</h4>
-    <div class="post-future-main">
-    <?php
-$rss_feed_url = 'https://e00-marca.uecdn.es/rss/futbol/levante.xml';
-$rss = simplexml_load_file($rss_feed_url);
-
-if ($rss !== false) {
-    $counter = 0;
-    foreach ($rss->channel->item as $item) {
-        if ($counter < 3) {
-            echo '<div class="post-future">';
-            echo '<a class="post-future-figure" href="' . $item->link . '" target="_blank">';
-
-            // Buscar la imagen dentro de media:content o media:thumbnail
-            $namespaces = $rss->getNamespaces(true);
-            $media = $item->children($namespaces['media']);
-            
-            if ($media->content) {
-                $image_url = (string) $media->content->attributes()->url;
-            } elseif ($media->thumbnail) {
-                $image_url = (string) $media->thumbnail->attributes()->url;
-            } else {
-                $image_url = ''; // Imagen de respaldo en caso de que no haya imagen
-            }
-
-            if (!empty($image_url)) {
-                echo '<img src="' . $image_url . '" alt="Imagen de la noticia" width="368" height="287"/>';
-            }
-
-            echo '</a>';
-            echo '<h4 class="post-future-title"><a href="' . $item->link . '" target="_blank">' . $item->title . '</a></h4>';
-            echo '<hr/>';
-            echo '<div class="post-future-text"><p>' . strip_tags($item->description) . '</p></div>';
-            echo '<div class="post-future-footer group-flex group-flex-xs">';
-            echo '<a class="button button-gray-outline" href="' . $item->link . '" target="_blank">Leer más</a>';
-            echo '</div>';
-            echo '</div>';
-            $counter++;
-        }
-    }
-} else {
-    echo '<p>Hubo un problema al cargar el RSS.</p>';
-}
+<?php
+include('includes/marca.php');
 ?>
-
-    </div>
-  </article>
 </div>
 <!-- fin rss marca-->
  <!-- levante emv-->
 <div class="col-md-6">
-  <article class="post-future">
-  <h4 class="post-future-title">
-  <img src="images/lv.png" alt="Icono" width="20" height="20"> Levante EMV</h4>
-    <div class="post-future-main">
-      <?php
-      $rss_feed_url = 'https://www.levante-emv.com/rss/section/4551';
-      $rss = simplexml_load_file($rss_feed_url);
-      
-      if ($rss !== false) {
-          $counter = 0;
-          foreach ($rss->channel->item as $item) {
-              if ($counter < 3) {
-                  echo '<div class="post-future">';
-                  echo '<a class="post-future-figure" href="' . $item->link . '" target="_blank">';
-                  if (isset($item->enclosure)) {
-                      echo '<img src="' . $item->enclosure['url'] . '" alt="Imagen de la noticia" width="368" height="287"/>';
-                  }
-                  echo '</a>';
-                  echo '<h4 class="post-future-title"><a href="' . $item->link . '" target="_blank">' . $item->title . '</a></h4>';
-                  echo '<hr/>';
-                  echo '<div class="post-future-text"><p>' . $item->description . '</p></div>';
-                  echo '<div class="post-future-footer group-flex group-flex-xs">';
-                  echo '<a class="button button-gray-outline" href="' . $item->link . '" target="_blank">Leer más</a>';
-                  echo '</div>';
-                  echo '</div>';
-                  $counter++;
-              }
-          }
-      } else {
-          echo '<p>Hubo un problema al cargar el RSS.</p>';
-      }
-      ?>
-    </div>
-  </article>
+<?php
+include('includes/levante.php');
+?>
+  
 </div>
 <!-- fin rss levante emv-->
  
 <!-- provincias emv-->
 <div class="col-md-6">
-  <article class="post-future">
-  <h4 class="post-future-title">
-  <img src="images/pv.png" alt="Icono" width="20" height="20"> Las Provincias
-</h4>
-
-    <div class="post-future-main">
-      <?php
-      $rss_feed_url = 'https://www.lasprovincias.es/rss/2.0/?section=levanteud';
-      $rss = simplexml_load_file($rss_feed_url);
-      
-      if ($rss !== false) {
-          $counter = 0;
-          foreach ($rss->channel->item as $item) {
-              if ($counter < 3) {
-                  echo '<div class="post-future">';
-                  echo '<a class="post-future-figure" href="' . $item->link . '" target="_blank">';
-                  
-                  // Intentamos obtener la imagen desde <media:content>
-                  $namespaces = $rss->getNamespaces(true);
-                  $media = $item->children($namespaces['media']);
-                  $image_url = '';
-
-                  // Primero, intentamos obtener la imagen desde <media:content>
-                  if ($media->content) {
-                      $image_url = (string) $media->content->attributes()->url;
-                  }
-
-                  // Si no encontramos una imagen en <media:content>, intentamos en <description>
-                  if (empty($image_url) && isset($item->description)) {
-                      // Usamos expresión regular para extraer el src de la imagen dentro de la descripción
-                      preg_match('/<img[^>]+src="([^"]+)"/', $item->description, $matches);
-                      if (isset($matches[1])) {
-                          $image_url = $matches[1];
-                      }
-                  }
-
-                  // Si encontramos una imagen, la mostramos
-                  if (!empty($image_url)) {
-                      echo '<img src="' . $image_url . '" alt="Imagen de la noticia" width="368" height="287"/>';
-                  }
-
-                  echo '</a>';
-                  echo '<h4 class="post-future-title"><a href="' . $item->link . '" target="_blank">' . $item->title . '</a></h4>';
-                  echo '<hr/>';
-                  echo '<div class="post-future-text"><p>' . strip_tags($item->description) . '</p></div>';
-                  echo '<div class="post-future-footer group-flex group-flex-xs">';
-                  echo '<a class="button button-gray-outline" href="' . $item->link . '" target="_blank">Leer más</a>';
-                  echo '</div>';
-                  echo '</div>';
-                  $counter++;
-              }
-          }
-      } else {
-          echo '<p>Hubo un problema al cargar el RSS.</p>';
-      }
-      ?>
-    </div>
-  </article>
+<?php
+include('includes/provincias.php');
+?>
 </div>
 
+
 <!-- fin rss provincias-->
+
+</div>
+
+
+
+
+
+
+
+<!-- fin Calendario-->
+
+
+ <!-- clasificacion-->
+<article class="heading-component">
+  
+    
+  </div>
+  <!-- posicion levante fin -->
+ 
+</div>
+<div class="col-md-6">
+
+</div>
+
+<!-- JavaScript para alternar la tabla -->
+<script>
+    // Obtener los elementos del DOM
+    const toggleButton = document.getElementById('toggleButton');
+    const clasificacionTable = document.getElementById('clasificacionTable');
+    
+    // Agregar evento de clic al botón
+    toggleButton.addEventListener('click', () => {
+        // Alternar la visibilidad de la tabla
+        if (clasificacionTable.style.display === 'none') {
+            clasificacionTable.style.display = 'block'; // Mostrar tabla completa
+            toggleButton.textContent = 'Ocultar clasificación'; // Cambiar texto del botón
+        } else {
+            clasificacionTable.style.display = 'none'; // Ocultar tabla completa
+            toggleButton.textContent = 'Ver Completa'; // Cambiar texto del botón
+        }
+    });
+</script>
+
 
 
 
@@ -441,18 +281,12 @@ if ($rss !== false) {
                     <!-- Heading Component-->
                  
                     <!-- Owl Carousel-->
-                    <div class="owl-carousel owl-spacing-1" data-items="1" data-dots="false" data-nav="true" data-autoplay="true" data-autoplay-speed="4000" data-stage-padding="0" data-loop="true" data-margin="30" data-mouse-drag="false" data-animation-in="fadeIn" data-animation-out="fadeOut" data-nav-custom=".owl-carousel-outer-navigation-1">
+                    
                       <!-- Game Result Creative-->
                       
                   </div>
                 </div>
-                <!-- Gwidget resultado y clasificacion-->
-                <div style="font-size: 1em;line-height: 1em;background: #000;color: #fff;margin: 0 auto;padding: 0.3em 0;width:90%;text-align:center">
-                  <a target="_blank" style="color:#FFF;text-decoration:none" href="https://www.siguetuliga.com/liga/nacional-segunda-division-laliga-hypermotion/clasificacion?utm_source=widget2&utm_medium=webs%2Bo%2Bblogs&utm_campaign=Widgets%2Bresultados">Clasificación LaLiga Hypermotion</a>
-                </div><script type="text/javascript">widthIcon = "14";heightIcon = "14";</script><script language="javascript" src="https://www.siguetuliga.com/widget/clasificacion2.php?id=5858" charset="iso-8859-1"></script>
                 
-                <div style="font-size: 1em;line-height: 1em;background: #000;color: #fff;margin: 0 auto;padding: 0.3em 0;width:90%;text-align:center">
-                  <a target="_blank" style="color:#FFF;text-decoration:none" href="https://www.siguetuliga.com/liga/nacional-segunda-division-laliga-hypermotion?utm_source=widget2&utm_medium=webs%2Bo%2Bblogs&utm_campaign=Widgets%2Bresultados">Partidos LaLiga Hypermotion</a></div><script type="text/javascript">widthIcon = "14";heightIcon = "14";</script><script language="javascript" src="https://www.siguetuliga.com/widget/resultados2.php?id=5858" charset="iso-8859-1"></script>
 
                 <div class="aside-component">
                   
@@ -553,9 +387,9 @@ if ($rss !== false) {
             
 
                 <ul class="nav-minimal-list">
-                  <li class="active"><a href="index.html">Inicio</a></li>
-                  <li><a href="#">seccion1</a></li>
-                  <li><a href="#">seccion2</a></li>
+                  <li class="active"><a href="index.php">Inicio</a></li>
+                  <li><a href="#">Clasificación</a></li>
+                  <li><a href="#">Próximo partido</a></li>
                   <li><a href="#">seccion3</a></li>
                   <li><a href="#">seccion4</a></li>
                   <li><a href="#">seccion5</a></li>
@@ -566,26 +400,16 @@ if ($rss !== false) {
         </div>
       </footer>
       <!-- Modal Video-->
-      <div class="modal modal-video fade" id="modal1" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-              <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" width="560" height="315" data-src="https://www.youtube.com/embed/uSzNA2_y46c"></iframe>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </div>
     <!-- Global Mailform Output-->
     <div class="snackbars" id="form-output-global"></div>
     <!-- Javascript-->
     <script src="js/core.min.js"></script>
     <script src="js/script.js"></script>
+
+
+
     
   </body>
 </html>

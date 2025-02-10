@@ -254,6 +254,7 @@ h6,
 	padding-left: 40px;
 }
 
+
 .heading-decoration-2::before {
 	content: '';
 	position: absolute;
@@ -394,6 +395,7 @@ p [style*='max-width'] {
 	align-items: center;
 	justify-content: space-between;
 	margin-left: -15px;
+	
 }
 
 .heading-component-inner > * {
@@ -530,6 +532,7 @@ p [style*='max-width'] {
 		max-height: 90px;
 	}
 }
+
 
 /*
 *
@@ -844,7 +847,7 @@ button.link-cart::-moz-focus-inner {
 @media (min-width: 768px) and (max-width: 991.98px) {
 	.aside-components {
 		max-width: inherit;
-		columns: 2;
+		columns: 3;
 		break-inside: avoid;
 		column-gap: 30px;
 	}
@@ -4623,12 +4626,12 @@ textarea.form-input {
 
 .post-inline-time {
 	color: #35ad79;
-	font-size: 20px;
+	font-size: 15px;
 }
 
 .post-inline-title {
 	color: #151515;
-	font-size: 20px;
+	font-size: 15px;
 }
 
 .post-inline-title:not(:empty)::before {
@@ -4971,6 +4974,7 @@ textarea.form-input {
 	
 	flex-direction: column;
 	height: 100%; /* Asegurarse de que los artículos tengan la misma altura */
+	overflow: hidden;
   }
 
 .post-future hr {
@@ -5037,6 +5041,7 @@ textarea.form-input {
 .post-future-main {
 	padding: 20px 25px 35px;
 	background: #fff;
+	overflow-y: auto; /* Agrega un scroll si el contenido es muy grande */
 }
 
 .post-future-meta {
@@ -24787,4 +24792,60 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
 	top: 0;
 	right: 0;
 	transform: translate(90%, -30%);
+}
+/* Estilo de la tabla */
+.table {
+    width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
+    border-collapse: collapse; /* Elimina el espacio entre celdas */
+    margin-bottom: 30px; /* Espacio debajo de la tabla */
+}
+
+/* Estilo de las filas de la tabla */
+.table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Fondo alternado para filas pares */
+}
+
+.table th, .table td {
+    padding: 12px; /* Espaciado dentro de las celdas */
+    text-align: left; /* Alineación del texto a la izquierda */
+    border-bottom: 1px solid #ddd; /* Línea divisoria debajo de cada celda */
+}
+
+/* Estilo para los títulos de las columnas */
+.table th {
+    background-color: #f1f1f1;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Estilo de las imágenes dentro de la tabla */
+.table img {
+    max-width: 30px; /* Limita el tamaño de las imágenes */
+    max-height: 30px;
+    border-radius: 50%; /* Hace que la imagen sea circular */
+}
+
+/* Hover effect para filas */
+.table tr:hover {
+    background-color: #e2e2e2; /* Cambia el fondo al pasar el ratón sobre una fila */
+}
+/* Estilo del botón */
+#toggleButton {
+    margin-bottom: 20px; /* Espacio debajo del botón */
+}
+
+/* Estilo del contenido oculto (no es necesario, ya se maneja con display: none) */
+#clasificacionTable {
+    display: none;
+}
+/* Centrar el botón "Ver Completa" */
+.text-center {
+    text-align: center;
+}
+
+#toggleButton {
+    display: block; /* Asegura que el botón se trate como un bloque */
+    margin-left: auto; /* Automáticamente ajusta el margen izquierdo */
+    margin-right: auto; /* Automáticamente ajusta el margen derecho */
+    margin-top: 20px; /* Espaciado superior opcional */
 }
