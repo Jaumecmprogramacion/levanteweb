@@ -78,7 +78,7 @@
                         <li class="has-children">
                             <a href="#0" title="" class="">Datos</a>
                             <ul class="sub-menu">
-                                <li><a href="single-standard.html">Clasificación</a></li>
+                                <li><a href="clasificación.html">Clasificación</a></li>
                                 <li><a href="single-video.html">Calendario</a></li>
                                 <li><a href="single-audio.html">Analisis ultimo partidos</a></li>
                             </ul>
@@ -156,7 +156,7 @@
                                         <img src="images/LaLiga_Hypermotion_2023_Horizontal_Logo.svg.png" alt="Logo Levante" width="220" height="auto">
                                         </div>
                                 <?php include 'includes/clasificacion.php'; ?>
-                                <a class="hero__more-link" href="single-standard.html">Ver clasificación más detallada</a>
+                                <a class="hero__more-link" href="clasificaciondet.php">Ver clasificación más detallada</a>
 
                                 </div>
                             </div>
@@ -166,7 +166,7 @@
                             <div class="hero__entry-text">
                                 <div class="hero__entry-text-inner">
                                 
-                                <?php include 'includes/partidos.php'; ?>
+                                <?php include 'includes/proximo.php'; ?>
 
                                 </div>
                             </div>
@@ -305,14 +305,14 @@
                         <a href="#0">Clasificación</a>
                     </span>
                 </div>
-                <h1 class="entry__title"><a href="single-standard.html">Clasificación Liga Hipermotion</a></h1>
+                <h1 class="entry__title"><a href="clasificaciondet.php">Clasificación Liga Hipermotion</a></h1>
             </div>
             <div class="entry__excerpt">
                 <p>
                 Clasificación detallada
                 </p>
             </div>
-            <a class="entry__more-link" href="#0">LEER MÁS</a>
+            <a class="entry__more-link" href="clasificaciondet.php">LEER MÁS</a>
         </div> <!-- end entry__text -->
         
         
@@ -320,7 +320,7 @@
     <article class="brick entry" data-animate-el>
 
         <div class="entry__thumb">
-            <a href="single-standard.html" class="thumb-link">
+            <a href="clasificaciondet.php" class="thumb-link">
                 <img src="images/partdioscarlos.jpg" 
                     srcset="images/partdioscarlos.jpg" alt="">
             </a>

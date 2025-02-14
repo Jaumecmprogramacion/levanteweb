@@ -1,6 +1,6 @@
 <?php
-// Ruta al archivo JSON donde se guardarán los datos
-$jsonFile = 'dataclasi.json';
+// Ruta al archivo JSON en la carpeta "datos", en un directorio anterior
+$jsonFile = '../datos/dataclasi.json';
 
 // Comprobar si el archivo JSON existe y si fue actualizado en las últimas 24 horas (86400 segundos)
 if (file_exists($jsonFile) && time() - filemtime($jsonFile) < 86400) {
@@ -30,7 +30,13 @@ if (file_exists($jsonFile) && time() - filemtime($jsonFile) < 86400) {
         die("Error: No se pudo obtener o parsear los datos de la API.");
     }
 
-    // Guardar los datos en el archivo JSON para usarlos en el futuro
+    // Asegurarse de que la carpeta 'datos' existe
+    if (!file_exists('../datos')) {
+        // Si no existe, intentar crear la carpeta 'datos'
+        mkdir('../datos', 0777, true);
+    }
+
+    // Guardar los datos en el archivo JSON dentro de la carpeta 'datos'
     file_put_contents($jsonFile, json_encode($data));
 
     echo "Los datos han sido actualizados y guardados en el archivo JSON.";

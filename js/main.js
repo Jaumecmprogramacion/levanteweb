@@ -240,7 +240,7 @@
    /* swiper
     * ------------------------------------------------------ */ 
    const ssSwiper = function() {
-    const etiquetas = ["Inicio", "Clasificación", "Calendario", "Resultados"];
+    const etiquetas = ["Inicio", "Clasificación", "Próximo", "Resultados"];
 
     const mySwiper = new Swiper('.swiper-container', {
         slidesPerView: 1,
