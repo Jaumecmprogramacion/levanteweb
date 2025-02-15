@@ -1,44 +1,51 @@
 <?php
-// Ruta al archivo JSON en la carpeta "datos", en un directorio anterior
-$jsonFile = '../datos/dataclasi.json';
 
-// Comprobar si el archivo JSON existe y si fue actualizado en las últimas 24 horas (86400 segundos)
-if (file_exists($jsonFile) && time() - filemtime($jsonFile) < 86400) {
-    // Si el archivo JSON ya está actualizado, no hacer nada
-    echo "Los datos ya están actualizados.";
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => "https://transfermarket.p.rapidapi.com/matches/list-by-club?id=3368&domain=es",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "GET",
+    CURLOPT_HTTPHEADER => [
+        "x-rapidapi-host: transfermarket.p.rapidapi.com",
+        "x-rapidapi-key: bbfe6e3f32msh08adf6704935149p1075f8jsn0fa22b3adf89"
+    ],
+]);
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+    die("Error en cURL: " . $err);
 } else {
-    // Hacer la solicitud a la API si el archivo no existe o no ha sido actualizado en las últimas 24 horas
-    $url = "https://magicloops.dev/api/loop/0ac35dc8-2601-4971-9374-e3937f429468/run";
-    $apiData = json_encode(["input" => "I love Magic Loops!"]);
+    // Ruta relativa hacia la carpeta 'datos' en el directorio inferior
+    $folder = __DIR__ . '/../datos'; // Ruta a la carpeta 'datos' un directorio arriba
+    $filePath = $folder . '/matches.json'; // Ruta final del archivo JSON
 
-    // Inicializar cURL
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Recibir la respuesta
-    curl_setopt($ch, CURLOPT_POST, true); // Método POST
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $apiData); // Datos a enviar
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-
-    // Ejecutar la solicitud y obtener la respuesta
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    // Convertir la respuesta JSON a un array de PHP
-    $data = json_decode($response, true);
-
-    // Verificar si la respuesta es válida
-    if ($data === null) {
-        die("Error: No se pudo obtener o parsear los datos de la API.");
+    // Verificar si la carpeta 'datos' existe, si no, crearla
+    if (!is_dir($folder)) {
+        if (!mkdir($folder, 0777, true)) {
+            die("Error: No se pudo crear la carpeta 'datos'");
+        }
     }
 
-    // Asegurarse de que la carpeta 'datos' existe
-    if (!file_exists('../datos')) {
-        // Si no existe, intentar crear la carpeta 'datos'
-        mkdir('../datos', 0777, true);
+    // Verificar si la respuesta es un JSON válido
+    $jsonData = json_decode($response, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        die("Error: La respuesta de la API no es un JSON válido.");
     }
 
-    // Guardar los datos en el archivo JSON dentro de la carpeta 'datos'
-    file_put_contents($jsonFile, json_encode($data));
-
-    echo "Los datos han sido actualizados y guardados en el archivo JSON.";
+    // Guardar el JSON con formato legible
+    if (file_put_contents($filePath, json_encode($jsonData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)) !== false) {
+        echo "Datos guardados correctamente en: " . realpath($filePath);
+    } else {
+        echo "Error: No se pudo escribir en el archivo JSON.";
+    }
 }
 ?>

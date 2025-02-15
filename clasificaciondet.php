@@ -40,60 +40,20 @@
         </div>
     </div>
 
-
+    <header>
+    <?php include 'includes/header.php'; ?>
     <!-- page wrap
     ================================================== -->
-    <div id="page" class="s-pagewrap">
+    <div id="page" class="s-pagewrap ss-home">
 
 
         <!-- # site header 
         ================================================== -->
-        <header id="masthead" class="s-header">
+      
 
-            <div class="s-header__branding">
-                <p class="site-title">
-                    <a href="index.html" rel="home">Clasificación.</a>
-                </p>
-            </div>
+           
 
-            <div class="row s-header__navigation">
-
-                <nav class="s-header__nav-wrap">
-    
-                    <h3 class="s-header__nav-heading">Navigate to</h3>
-    
-                    <ul class="s-header__nav">
-                        <li class="current-menu-item"><a href="index.html" title="">Inicio</a></li>
-                        <li class="has-children">
-                            <a href="#0" title="" class="">Noticias</a>
-                            <ul class="sub-menu">
-                                <li><a href="category.html">Superdeporte</a></li>
-                                <li><a href="category.html">Marca</a></li>
-                                <li><a href="category.html">Levante EMV</a></li>
-                                <li><a href="category.html">Las Provincias</a></li>
-                                
-                            </ul>
-                        </li>
-                        <li class="has-children">
-                            <a href="#0" title="" class="">Datos</a>
-                            <ul class="sub-menu">
-                                <li><a href="clasificación.html">Clasificación</a></li>
-                                <li><a href="single-video.html">Calendario</a></li>
-                                <li><a href="single-audio.html">Analisis ultimo partidos</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="styles.html" title="">Plantilla</a></li>
-                        <li><a href="about.html" title="">Sobre nosotros</a></li>
-                        <li><a href="contact.html" title="">Contacto</a></li>
-                    </ul> <!-- end s-header__nav -->
-
-                </nav> <!-- end s-header__nav-wrap -->
-    
-            </div> <!-- end s-header__navigation -->
-
-            
-
-            
+          
 
         </header> <!-- end s-header -->
 

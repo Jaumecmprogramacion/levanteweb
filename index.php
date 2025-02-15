@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js" >
+<html lang="es" class="no-js" >
 <head>
 
     <!--- basic page needs
     ================================================== -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Llevant U.D.</title>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Noticias y datos del Levante ud">
+    <meta name="keywords" content="Levante UD, fútbol, noticias, Levante, plantilla, resultados, Jaume Crespo granota, calendario levante ud, calendario levante u.d.calendario llevant ud">
+    <meta name="author" content="Jaume Crespo">
+    <meta property="og:title" content="Noticias Levante UD">
+    <meta property="og:description" content="Una descripción más detallada de tu página para compartir en redes sociales.">
+    <meta property="og:image" content="URL_DE_TU_IMAGEN">
+    <meta property="og:url" content="URL_DE_TU_PÁGINA">
+    <meta name="robots" content="index, follow">
+    <title>Noticias Levante UD</title>
+</head>
+
 
     <script>
         document.documentElement.classList.remove('no-js');
@@ -20,9 +31,9 @@
 
     <!-- favicons
     ================================================== -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/levantelogo.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/levantelogo.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/levantelogo.svg>
     <link rel="manifest" href="site.webmanifest">
 
 </head>
@@ -41,7 +52,8 @@
         </div>
     </div>
 
-
+    <header>
+    <?php include 'includes/header.php'; ?>
     <!-- page wrap
     ================================================== -->
     <div id="page" class="s-pagewrap ss-home">
@@ -49,56 +61,11 @@
 
         <!-- # site header 
         ================================================== -->
-        <header id="masthead" class="s-header">
-
-            <div class="s-header__branding">
-                <p class="site-title">
-                    <a href="index.html" rel="home">Llevant U.D.</a>
-                </p>
-            </div>
-
-            <div class="row s-header__navigation">
-
-                <nav class="s-header__nav-wrap">
-    
-                    <h3 class="s-header__nav-heading">Navigate to</h3>
-    
-                    <ul class="s-header__nav">
-                        <li class="current-menu-item"><a href="index.html" title="">Inicio</a></li>
-                        <li class="has-children">
-                            <a href="#0" title="" class="">Noticias</a>
-                            <ul class="sub-menu">
-                                <li><a href="category.html">Superdeporte</a></li>
-                                <li><a href="category.html">Marca</a></li>
-                                <li><a href="category.html">Levante EMV</a></li>
-                                <li><a href="category.html">Las Provincias</a></li>
-                                
-                            </ul>
-                        </li>
-                        <li class="has-children">
-                            <a href="#0" title="" class="">Datos</a>
-                            <ul class="sub-menu">
-                                <li><a href="clasificación.html">Clasificación</a></li>
-                                <li><a href="single-video.html">Calendario</a></li>
-                                <li><a href="single-audio.html">Analisis ultimo partidos</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="styles.html" title="">Plantilla</a></li>
-                        <li><a href="about.html" title="">Sobre nosotros</a></li>
-                        <li><a href="contact.html" title="">Contacto</a></li>
-                    </ul> <!-- end s-header__nav -->
-
-                </nav> <!-- end s-header__nav-wrap -->
-    
-            </div> <!-- end s-header__navigation -->
+      
 
            
 
-            <a class="s-header__menu-toggle" href="#0"><span>Menu</span></a>
-            <a class="s-header__search-trigger" href="#">
-            <img src="images/levantelogo.svg" alt="Logo Levante" width="80" height="auto">
-
-            </a>
+          
 
         </header> <!-- end s-header -->
 
@@ -133,7 +100,7 @@
                                         </span>
                                     </div>
                                     <h2 class="hero__entry-title">
-                                        <a href="single-standard.html">
+                                        <a href="plantilla.php">
                                             Todo sobre el universo granota
                                         </a>
                                     </h2>
@@ -171,6 +138,7 @@
                                 </div>
                             </div>
                         </article>
+                       
                         
                         <article class="hero__slide swiper-slide">
                             <div class="hero__entry-image" style="background-image: url('images/kocho01.jpg');"></div>
@@ -178,21 +146,15 @@
                                 <div class="hero__entry-text-inner">
                                     <div class="hero__entry-meta">
                                     <div class="logo-container">
-                                        <img src="images/levantelogo.svg" alt="Logo Levante" width="80" height="auto">
+                                        <img src="images/levantelogo.svg" alt="Logo Levante" width="200" height="auto">
                                         </div>
                                         <span class="cat-links">
-                                            <a href="category.html">Últimos resultados</a>
+                                            <a href="resultados.php">Resultados</a>
                                         </span>
                                     </div>
-                                    <h2 class="hero__entry-title">
-                                        <a href="single-standard.html">
-                                        Últimos resultados
-                                        </a>
-                                    </h2>
-                                    <p class="hero__entry-desc">
-                                    Últimos resultados
-                                    </p>
-                                    
+                                   
+                                   
+                                    <?php include 'includes/mostrarpartidos.php'; ?>
                                 </div>
                             </div>
                         </article>
@@ -225,7 +187,7 @@
                     <article class="brick entry" data-animate-el>
         
         <div class="entry__thumb">
-            <a href="single-standard.html" class="thumb-link">
+            <a href="plantilla.php" class="thumb-link">
                 <img src="images/plantilla.jpg" 
                     srcset="images/plantilla.jpg" alt="">
             </a>
@@ -239,20 +201,20 @@
                     </span>
                     <span class="post-date">
                         
-                        <a href="#0">Plantilla</a>
+                        <a href="plantilla.php">Plantilla</a>
                     </span>
                 </div>
-                <h1 class="entry__title"><a href="single-standard.html">Plantilla 2024-2025</a></h1>
+                <h1 class="entry__title"><a href="plantilla.php">Plantilla 2024-2025</a></h1>
             </div>
             <div class="entry__excerpt">
                 <p>
                 Todos los datos de la plantilla 2024/25.
             </div>
-            <a class="entry__more-link" href="#0">LEER MÁS</a>
+            <a class="entry__more-link" href="plantilla.php">LEER MÁS</a>
         </div> <!-- end entry__text -->
     
     </article> <!-- end article -->
-
+<!-- end
     <article class="brick entry" data-animate-el>
 
         <div class="entry__thumb">
@@ -261,7 +223,7 @@
                     srcset="images/analisis.jpg" alt="">
             </a>
         </div> <!-- end entry__thumb -->
-
+<!-- end
         <div class="entry__text">
             <div class="entry__header">
                 <div class="entry__meta">
@@ -320,7 +282,7 @@
     <article class="brick entry" data-animate-el>
 
         <div class="entry__thumb">
-            <a href="clasificaciondet.php" class="thumb-link">
+            <a href="resultados.php" class="thumb-link">
                 <img src="images/partdioscarlos.jpg" 
                     srcset="images/partdioscarlos.jpg" alt="">
             </a>
@@ -334,17 +296,17 @@
                     </span>
                     <span class="byline">
                         
-                        <a href="#0">Partidos y calendario</a>
+                        <a href="resultados.php">Partidos y calendario</a>
                     </span>
                 </div>
-                <h1 class="entry__title"><a href="single-standard.html">Calendario de partidos</a></h1>
+                <h1 class="entry__title"><a href="resultados.php">Calendario/Resultados temporada</a></h1>
             </div>
             <div class="entry__excerpt">
                 <p>
                 Datos de los partidos jugados y por jugar
                 </p>
             </div>
-            <a class="entry__more-link" href="#0">LEER MÁS</a>
+            <a class="entry__more-link" href="resultados.php">LEER MÁS</a>
         </div> <!-- end entry__text -->
         
         
