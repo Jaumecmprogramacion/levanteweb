@@ -1,6 +1,6 @@
 <?php
 // Ruta del archivo JSON (se mantiene la misma ruta de la carpeta 'datos')
-$filePath = __DIR__ . "datos/matches.json"; // Apuntamos a 'datos' en el directorio superior
+$filePath = __DIR__ . "/../datos/matches.json"; // Apuntamos a 'datos' en el directorio superior
 
 // Verificar si el archivo existe
 if (!file_exists($filePath)) {

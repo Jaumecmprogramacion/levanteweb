@@ -144,6 +144,7 @@
                             <div class="hero__entry-image" style="background-image: url('images/kocho01.jpg');"></div>
                             <div class="hero__entry-text">
                                 <div class="hero__entry-text-inner">
+                                <?php include 'includes/mostrarpartidos.php'; ?>
                                     <div class="hero__entry-meta">
                                     <div class="logo-container">
                                         <img src="images/levantelogo.svg" alt="Logo Levante" width="200" height="auto">
@@ -154,7 +155,7 @@
                                     </div>
                                    
                                    
-                                    <?php include 'includes/mostrarpartidos.php'; ?>
+                                  
                                 </div>
                             </div>
                         </article>
@@ -214,36 +215,7 @@
         </div> <!-- end entry__text -->
     
     </article> <!-- end article -->
-<!-- end
-    <article class="brick entry" data-animate-el>
 
-        <div class="entry__thumb">
-            <a href="single-standard.html" class="thumb-link">
-                <img src="images/analisis.jpg" 
-                    srcset="images/analisis.jpg" alt="">
-            </a>
-        </div> <!-- end entry__thumb -->
-<!-- end
-        <div class="entry__text">
-            <div class="entry__header">
-                <div class="entry__meta">
-                    <span class="cat-links">
-                        <a href="#">Datos</a>
-                    </span>
-                    <span class="byline">
-                        
-                        <a href="#0">ültimo partidos</a>
-                    </span>
-                </div>
-                <h1 class="entry__title"><a href="single-standard.html">Analisis del último partido</a></h1>
-            </div>
-            <div class="entry__excerpt">
-                <p>
-                Analisis del último partido
-                </p>
-            </div>
-            <a class="entry__more-link" href="#0">LEER MÁS</a>
-        </div> <!-- end entry__text -->
         
     </article> <!-- end article -->
 
