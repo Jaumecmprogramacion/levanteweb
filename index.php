@@ -129,6 +129,19 @@
                             </div>
                         </article>
                         <article class="hero__slide swiper-slide">
+                            <div class="hero__entry-image" style="background-image: url('images/-estadiociutatvalencia.jpg');"></div>
+                            <div class="hero__entry-text">
+                                <div class="hero__entry-text-inner">
+                                <div class="logo-container">
+                                        <img src="images/LaLiga_Hypermotion_2023_Horizontal_Logo.svg.png" alt="Logo Levante" width="220" height="auto">
+                                        </div>
+                                <?php include 'includes/lideres.php'; ?>
+                               
+
+                                </div>
+                            </div>
+                        </article>
+                        <article class="hero__slide swiper-slide">
                             <div class="hero__entry-image" style="background-image: url('images/aficion.jpg');"></div>
                             <div class="hero__entry-text">
                                 <div class="hero__entry-text-inner">
@@ -220,6 +233,7 @@
     </article> <!-- end article -->
 
     <article class="brick entry" data-animate-el>
+        
 
         <div class="entry__thumb">
             <a href="single-standard.html" class="thumb-link">
@@ -227,6 +241,7 @@
                     srcset="images/clasificacion01.jpg" alt="">
             </a>
         </div> <!-- end entry__thumb -->
+
 
         <div class="entry__text">
             <div class="entry__header">
@@ -248,6 +263,7 @@
             </div>
             <a class="entry__more-link" href="clasificaciondet.php">LEER MÁS</a>
         </div> <!-- end entry__text -->
+        
         
         
     </article> <!-- end article -->
