@@ -6,7 +6,7 @@
     ================================================== -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Audio Post - Spurgeon</title>
+    <title>Plantilla Llevant U.D</title>
 
     <script>
         document.documentElement.classList.remove('no-js');

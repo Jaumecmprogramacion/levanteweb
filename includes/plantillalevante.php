@@ -1,108 +1,186 @@
 <?php
 // Ruta al archivo JSON
-$file = 'datos/datosplantilla.json';
-
-// Definir el orden de las posiciones
-$position_order = [
-    'Portero' => 1,
-    'Defensa central' => 2,
-    'Lateral derecho' => 3,
-    'Lateral izquierdo' => 4,
-    'Pivote' => 5,
-    'Mediocentro' => 6,
-    'Extremo izquierdo' => 7,
-    'Extremo derecho' => 8,
-    'Delantero centro' => 9
-];
-
-// Función para ordenar jugadores por la posición
-function compare_positions($a, $b) {
-    global $position_order;
-
-    $pos_a = $a['positions']['first']['name'] ?? '';
-    $pos_b = $b['positions']['first']['name'] ?? '';
-
-    $priority_a = $position_order[$pos_a] ?? 10; // Si no tiene una posición definida, le asignamos baja prioridad
-    $priority_b = $position_order[$pos_b] ?? 10;
-
-    return $priority_a - $priority_b;
-}
+$filePath = '../datos/datosplantilla.json';
 
 // Verificar si el archivo existe
-if (file_exists($file)) {
-    // Leer el archivo JSON
-    $json_data = file_get_contents($file);
+if (file_exists($filePath)) {
+    // Cargar el contenido del archivo JSON
+    $responseData = json_decode(file_get_contents($filePath), true);
 
-    // Decodificar el JSON a un array asociativo de PHP
-    $data = json_decode($json_data, true);
-
-    // Verificar si el JSON fue decodificado correctamente
-    if ($data !== null && isset($data['squad'])) {
+    if ($responseData && isset($responseData['squad']) && count($responseData['squad']) > 0) {
         
-        // Ordenar los jugadores por su posición
-        usort($data['squad'], 'compare_positions');
-
-        // Mostrar tabla con los jugadores ordenados
-        
-        echo '<style>';
-        echo 'table { width: 100%; border-collapse: collapse; margin: 20px 0; font-family: Arial, sans-serif; }';
-        echo 'th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }';
-        echo 'th { background-color: #f2f2f2; color: #333; }';
-        echo 'td img { width: 80px; height: 80px; border-radius: 50%; }';
-        echo 'tr:nth-child(even) { background-color: #f9f9f9; }';
-        echo 'tr:hover { background-color: #f1f1f1; }';
-        echo 'h2 { text-align: center; font-size: 24px; color: #333; }';
-        echo '</style>';
-
-        // Iniciar la tabla
-        echo '<h2>Entrenador: Julian Calero</h2>';
-        echo '<table>';
-        echo '<thead>';
-        echo '<tr>';
-        echo '<th></th>';
-        echo '<th>Nombre</th>';
-        echo '<th>Edad</th>';
-        echo '<th>Altura</th>';
-        echo '<th>Piedra Dominante</th>';
-        echo '<th>Camiseta N°</th>';
-        echo '<th>Posición</th>';
-        echo '<th>Nacionalidad</th>';
-        echo '<th>Valor de Mercado</th>';
-        echo '</tr>';
-        echo '</thead>';
-        echo '<tbody>';
-
-        // Recorrer todos los jugadores y mostrar sus datos
-        foreach ($data['squad'] as $player) {
-            echo '<tr>';
-            // Mostrar imagen del jugador en la primera columna
-            echo '<td><img src="' . $player['image'] . '" alt="' . $player['name'] . '"></td>';
-            echo '<td>' . htmlspecialchars($player['name']) . '</td>';
-            echo '<td>' . $player['age'] . '</td>';
-            echo '<td>' . $player['height'] . ' m</td>';
-            echo '<td>' . $player['foot'] . '</td>';
-            echo '<td>' . $player['shirtNumber'] . '</td>';
-            echo '<td>' . $player['positions']['first']['name'] . '</td>';
-            
-            // Mostrar las nacionalidades
-            $nationalities = '';
-            foreach ($player['nationalities'] as $nationality) {
-                $nationalities .= $nationality['name'] . ' ';
+        function obtenerRankingPosicion($position) {
+            switch ($position) {
+                case 'Portero': return 1;
+                case 'Lateral derecho':
+                case 'Lateral izquierdo': return 2;
+                case 'Defensa central': return 3;
+                case 'Centro del campo':
+                case 'Centro defensivo': return 4;
+                case 'Extremo izquierdo':
+                case 'Extremo derecho': return 5;
+                case 'Delantero centro': return 6;
+                default: return 7;
             }
-            echo '<td>' . $nationalities . '</td>';
-
-            // Mostrar el valor de mercado
-            echo '<td>' . $player['marketValue']['value'] . ' ' . $player['marketValue']['currency'] . '</td>';
-
-            echo '</tr>';
         }
 
-        echo '</tbody>';
-        echo '</table>';
+        $jugadores = $responseData['squad'];
+        $posiciones = [];
+
+        foreach ($jugadores as $jugador) {
+            $pos = '';
+            if (isset($jugador['positions']) && is_array($jugador['positions'])) {
+                foreach ($jugador['positions'] as $posInfo) {
+                    if (isset($posInfo['name'])) {
+                        $pos = $posInfo['name'];
+                        break;
+                    }
+                }
+            }
+
+            $posiciones[] = [
+                'posicion' => $pos,
+                'ranking' => obtenerRankingPosicion($pos),
+                'jugador' => $jugador
+            ];
+        }
+
+        // Ordenar los jugadores por el ranking
+        usort($posiciones, function($a, $b) {
+            return $a['ranking'] - $b['ranking'];
+        });
     } else {
-        echo 'No se pudo decodificar el JSON correctamente.';
+        echo "<p>No se pudo obtener la información de los jugadores o no hay datos disponibles.</p>";
     }
 } else {
-    echo 'El archivo datosplantilla.json no existe.';
+    echo "<p>El archivo de datos no existe.</p>";
 }
 ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de los Jugadores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .player-card {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .player-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .column {
+            flex-grow: 1;
+        }
+        .more-info {
+            display: none;
+        }
+        .toggle-btn, .hide-btn {
+            margin-top: 5px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .hide-btn {
+            background-color: #dc3545;
+            display: none;
+        }
+       
+    </style>
+</head>
+<body>
+
+    <h1>Entrenador: Julian Calero</h1>
+
+    <?php
+    if (isset($posiciones)) {
+        // Mostrar los jugadores ordenados por posición
+        foreach ($posiciones as $item) {
+            $jugador = $item['jugador'];
+            $name = $jugador['name'];
+            $age = $jugador['age'];
+            $height = $jugador['height'];
+            $foot = $jugador['foot'];
+            $nationality = isset($jugador['nationalities']) && is_array($jugador['nationalities']) ? implode(', ', array_map(function($n) { return $n['name']; }, $jugador['nationalities'])) : 'Desconocida';
+            $positions = $item['posicion'];
+            $image = isset($jugador['image']) ? $jugador['image'] : 'default-image.jpg';
+            $shirtNumber = $jugador['shirtNumber'];
+
+            // Verificación y formato correcto de la fecha de contrato
+            if (isset($jugador['contractUntil']) && !empty($jugador['contractUntil'])) {
+                $timestamp = $jugador['contractUntil'];
+                if ($timestamp > 9999999999) { // Si el timestamp es en milisegundos, lo convertimos
+                    $timestamp = $timestamp / 1000;
+                }
+                $contractUntil = date("d/m/Y", $timestamp);
+            } else {
+                $contractUntil = "No disponible";
+            }
+
+            $marketValue = isset($jugador['marketValue']['value']) ? $jugador['marketValue']['value'] . ' ' . $jugador['marketValue']['currency'] : 'No disponible';
+            ?>
+
+            <div class="player-card">
+                <img src="<?php echo $image; ?>" alt="<?php echo $name; ?>">
+                <div class="column">
+                    <h1><?php echo $name; ?></h1>
+                    <p>Posición: <?php echo $positions; ?></p>
+                    <button class="toggle-btn" onclick="toggleDetails('<?php echo $jugador['id']; ?>')">Ver más</button>
+                    <button class="hide-btn" id="hide-btn-<?php echo $jugador['id']; ?>" onclick="hideDetails('<?php echo $jugador['id']; ?>')">Ocultar</button>
+                    <div id="details-<?php echo $jugador['id']; ?>" class="more-info">
+                        <p>Edad: <?php echo $age; ?> años</p>
+                        <p>Fecha de Nacimiento: <?php echo date("d/m/Y", $jugador['dateOfBirth']); ?></p>
+                        <p>Nacionalidad: <?php echo $nationality; ?></p>
+                        <p>Altura: <?php echo $height; ?> cm</p>
+                        <p>Pierna: <?php echo $foot; ?></p>
+                        <p>Número de camiseta: <?php echo $shirtNumber; ?></p>
+                        <p>Contrato hasta: <?php echo $contractUntil; ?></p>
+                        <p>Valor de mercado: <?php echo $marketValue; ?></p>
+                    </div>
+                </div>
+            </div>
+
+        <?php }
+    } ?>
+
+    <script>
+        function toggleDetails(id) {
+            var details = document.getElementById('details-' + id);
+            var hideButton = document.getElementById('hide-btn-' + id);
+            if (details.style.display === "none" || details.style.display === "") {
+                details.style.display = "block";
+                hideButton.style.display = "inline-block";  // Mostrar el botón "Ocultar"
+            } else {
+                details.style.display = "none";
+                hideButton.style.display = "none";  // Ocultar el botón "Ocultar"
+            }
+        }
+
+        function hideDetails(id) {
+            var details = document.getElementById('details-' + id);
+            var hideButton = document.getElementById('hide-btn-' + id);
+            details.style.display = "none";
+            hideButton.style.display = "none";  // Ocultar el botón "Ocultar" nuevamente
+        }
+    </script>
+
+</body>
+</html>
